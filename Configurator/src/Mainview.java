@@ -2,7 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import java.awt.event.*;
+import javax.swing.event.*;
 
 public class Mainview {
 	private JFrame frame;
@@ -13,10 +14,12 @@ public class Mainview {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 
-		JList list = new JList();
+		Controller ctrl = new Controller();
+		JTable table = new JTable(ctrl.listData.getModel());
+
 		JButton add = new JButton("Add");
 		JButton edit = new JButton("Modify");
-		JButton remove = new JButton("Remove");
+		final JButton remove = new JButton("Remove");
 		JButton up = new JButton("Up");
 		JButton down = new JButton("Down");
 		JButton settings = new JButton("Settings");
@@ -26,11 +29,10 @@ public class Mainview {
 		JPanel bottom = new JPanel();
 		JPanel center = new JPanel();
 
-		//list.setSize(200, 200);
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		left.add(up, BorderLayout.NORTH);
 		left.add(down, BorderLayout.SOUTH);
-		center.add(list);
+		center.add(new JScrollPane(table));
 		bottom.add(settings);
 		bottom.add(export);
 		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
@@ -62,8 +64,28 @@ public class Mainview {
 		about.add(ainfo);
 		frame.setJMenuBar(menubar);
 
-		frame.setSize(400, 400);
-		//frame.pack();
+		frame.pack();
+		
+		remove.setEnabled(false);
+		table.setShowVerticalLines(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		fexit.addActionListener(ctrl.exitAction);
+		add.addActionListener(ctrl.addListener);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				remove.setEnabled(true);
+				System.out.println("remove enabled");
+			};
+		});
+		table.getSelectionModel().addListSelectionListener(ctrl.selectionListener);
+		remove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove.setEnabled(false);
+				System.out.println("remove disabled");
+			};
+		});
+		remove.addActionListener(ctrl.removeListener);
 	}
 
 	public void show() {
