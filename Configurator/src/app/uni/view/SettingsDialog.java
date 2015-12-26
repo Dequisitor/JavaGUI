@@ -1,5 +1,7 @@
 package app.uni.view;
 
+import app.uni.controller.LanguageService;
+import app.uni.controller.LanguageService.Observer;
 import app.uni.model.Settings;
 
 import java.awt.Container;
@@ -9,7 +11,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
+
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
@@ -30,34 +32,14 @@ public class SettingsDialog extends JDialog {
 	private JButton output;
 
 	public void setLabels() {
-		try {
-			ResourceBundle labels = ResourceBundle.getBundle("app.uni.resources.labels", settings.getLocale());
-			String tmp;
-			tmp = labels.getString("output");
-			loutput.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("path");
-			lpath.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("filename");
-			lfilename.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("locale");
-			llocale.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("save");
-			save.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("cancel");
-			cancel.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("dir");
-			output.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			settings.setLang(0);
-			loutput.setText("File type");
-			lpath.setText("Path");
-			lfilename.setText("Filename");
-			llocale.setText("Locale/Language");
-			save.setText("Save");
-			cancel.setText("Cancel");
-			output.setText("Select directory");
-		}
+		LanguageService l = LanguageService.getInstance();
+		loutput.setText(l.getLabel("output"));
+		lpath.setText(l.getLabel("path"));
+		lfilename.setText(l.getLabel("filename"));
+		llocale.setText(l.getLabel("locale"));
+		save.setText(l.getLabel("save"));
+		cancel.setText(l.getLabel("cancel"));
+		output.setText(l.getLabel("dir"));
 		pack();
 	}
 
@@ -205,10 +187,15 @@ public class SettingsDialog extends JDialog {
 
 				dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
 				date.setText(dateFormat.format(new Date()));
-
-				setLabels();
 			}
 		});
+
+		LanguageService.getInstance().addListener(new Observer() {
+			public void update() {
+				setLabels();
+			};
+		});
+		setLabels();
 	}
 
 	public void Show() {

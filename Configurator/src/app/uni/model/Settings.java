@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
+import app.uni.controller.LanguageService;
+
 public class Settings {
 
 	private String path;
@@ -79,6 +81,7 @@ public class Settings {
 
 	public void setLang(int lang) {
 		this.lang = lang;
+		LanguageService.getInstance().setLocale(getLocale());
 	}
 
 	public String[] getAvailableLanguages() {

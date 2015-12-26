@@ -64,6 +64,7 @@ public class Controller {
 				file.write("\t\t\"alias\": \""+ current.alias + "\",\n");
 				file.write("\t\t\"command\": \""+ current.command + "\",\n");
 				file.write("\t\t\"args\": \""+ current.args + "\",\n");
+				file.write("\t\t\"result\": \""+ current.result + "\",\n");
 				file.write("\t\t\"prompt\": \""+ current.prompt + "\"\n");
 				file.write("\t}\n");
 			}
@@ -93,6 +94,7 @@ public class Controller {
 				file.write("\t\t<alias>"+ current.alias + "</alias>\n");
 				file.write("\t\t<command>"+ current.command + "</command>\n");
 				file.write("\t\t<args>"+ current.args + "</args>\n");
+				file.write("\t\t<result>"+ Command.ResultTypes[current.result] + "</result>\n");
 				file.write("\t\t<prompt>"+ current.prompt + "</prompt>\n");
 				file.write("\t</Command>\n");
 			}
@@ -120,6 +122,7 @@ public class Controller {
 				file.write("alias: "+ current.alias + "\n");
 				file.write("command: "+ current.command + "\n");
 				file.write("args: "+ current.args + "\n");
+				file.write("result: "+ Command.ResultTypes[current.result] + "\n");
 				file.write("prompt: "+ current.prompt + "\n");
 			}
 			file.close();
@@ -137,6 +140,8 @@ public class Controller {
 		listData.addCommand(new Command("lamp", "Toggle Lamp", "lamp.sh", "15", true, 1));
 		listData.addCommand(new Command("weather", "Get weather", "weather.sh", "", false, 0));
 
+		LanguageService.getInstance().setLocale(settings.getLocale());
+
 		exitAction = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -144,7 +149,7 @@ public class Controller {
 		};
 		addListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CommandDialog dialog = new CommandDialog("Command List entry", settings);
+				CommandDialog dialog = new CommandDialog("Command List entry");
 				Command res = dialog.Show();
 
 				if (res != null) {
@@ -167,7 +172,7 @@ public class Controller {
 		};
 		editListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CommandDialog dialog = new CommandDialog("Modify Command", settings, listData.getCommand(selectedItemIndex));
+				CommandDialog dialog = new CommandDialog("Modify Command", listData.getCommand(selectedItemIndex));
 				Command res = dialog.Show();
 
 				if (res != null) {

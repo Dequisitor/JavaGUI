@@ -1,12 +1,13 @@
 package app.uni.view;
 
+import app.uni.controller.LanguageService;
+import app.uni.controller.LanguageService.Observer;
 import app.uni.model.Command;
-import app.uni.model.Settings;
 
 import javax.swing.*;
+
 import java.awt.Container;
 import java.awt.event.*;
-import java.util.ResourceBundle;
 
 public class CommandDialog extends JDialog {
 	private JTextField name;
@@ -16,7 +17,6 @@ public class CommandDialog extends JDialog {
 	private JComboBox<String> result;
 	private JCheckBox prompt;
 	private Command res;
-	private Settings settings;
 	private JLabel lName;
 	private JLabel lAlias;
 	private JLabel lCommand;
@@ -27,45 +27,24 @@ public class CommandDialog extends JDialog {
 	private JButton cancel;
 
 	public void setLabels() {
-		try {
-			ResourceBundle labels = ResourceBundle.getBundle("app.uni.resources.labels", settings.getLocale());
-			String tmp;
-			tmp = labels.getString("name");
-			lName.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("alias");
-			lAlias.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("command");
-			lCommand.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("arguments");
-			lArguments.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("result");
-			lResult.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("prompt");
-			lPrompt.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("save");
-			save.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("cancel");
-			cancel.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			lName.setText("Name");
-			lAlias.setText("Alias");
-			lCommand.setText("Command");
-			lArguments.setText("Arguments");
-			lResult.setText("Response type");
-			lPrompt.setText("Confim needed");
-			save.setText("Save");
-			cancel.setText("Cancel");
-		}
+		LanguageService l = LanguageService.getInstance();
+		lName.setText(l.getLabel("name"));
+		lAlias.setText(l.getLabel("alias"));
+		lCommand.setText(l.getLabel("command"));
+		lArguments.setText(l.getLabel("arguments"));
+		lResult.setText(l.getLabel("result"));
+		lPrompt.setText(l.getLabel("prompt"));
+		save.setText(l.getLabel("save"));
+		cancel.setText(l.getLabel("cancel"));
 		pack();
 	}
 
-	public CommandDialog(String title, Settings set, Command com) {
+	public CommandDialog(String title, Command com) {
 		super((JFrame)null, title);
 		setModal(true);
 
-		String options[] = { "HTTP request only", "Execution succes", "Output values" };
-		settings = set;
+		//String options[] = { "HTTP request only", "Execution succes", "Output values" };
+		String options[] = Command.getResponseTypes();
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		Container content = getContentPane();
@@ -133,8 +112,6 @@ public class CommandDialog extends JDialog {
 					.addComponent(save)
 					.addComponent(cancel)));
 
-		setLabels();
-
 		if (com != null) {
 			name.setText(com.name);
 			alias.setText(com.alias);
@@ -157,10 +134,17 @@ public class CommandDialog extends JDialog {
 			}
 		});
 
+		LanguageService.getInstance().addListener(new Observer() {
+			public void update() {
+				setLabels();
+			}
+		});
+		setLabels();
+
 	};
 	
-	public CommandDialog(String title, Settings settings) {
-		this(title, settings, (Command)null);
+	public CommandDialog(String title) {
+		this(title, (Command)null);
 	};
 
 

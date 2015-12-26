@@ -2,8 +2,6 @@ package app.uni.model;
 
 public class Command {
 
-	public static enum ResultTypes { Request, Execution, Response };
-
 	public String name;
 	public String alias;
 	public String command;
@@ -23,12 +21,13 @@ public class Command {
 	public Command() {
 	};
 
-	public String toString() {
-		return this.name + "\t" + this.alias + "\t" + this.command + " " + this.args + "\tprompt: " + this.prompt;
-	};
-
 	public Object[] toArray() {
 		Object array[] = {this.name, this.alias, this.command, this.args, this.result, this.prompt};
 		return array;
+	};
+
+	public static String[] getResponseTypes() {
+		String responses[] = { "HTTP only", "Execution", "Output" };
+		return responses;
 	};
 }

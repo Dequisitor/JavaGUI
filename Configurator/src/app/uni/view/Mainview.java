@@ -1,11 +1,12 @@
 package app.uni.view;
 
 import app.uni.controller.Controller;
+import app.uni.controller.LanguageService;
+import app.uni.controller.LanguageService.Observer;
 
 import java.awt.Container;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ResourceBundle;
 import javax.swing.event.*;
 
 public class Mainview {
@@ -28,48 +29,19 @@ public class Mainview {
 	private JMenuItem ainfo;
 	
 	public void setLabels() {
-		try {
-			ResourceBundle labels = ctrl.getResourceBundle();
-			String tmp;
-			tmp = labels.getString("add");
-			add.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("edit");
-			edit.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("remove");
-			remove.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("up");
-			up.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("down");
-			down.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("settings");
-			settings.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("export");
-			export.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("file");
-			file.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("help");
-			about.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("exit");
-			fexit.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("settings");
-			fsettings.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-			tmp = labels.getString("info");
-			ainfo.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			add.setText("Add");
-			edit.setText("Modify");
-			remove.setText("Remove");
-			up.setText("Up");
-			down.setText("Down");
-			settings.setText("Settings");
-			export.setText("Export");
-			file.setText("File");
-			about.setText("Help");
-			fexit.setText("Exit");
-			fsettings.setText("Settings");
-			ainfo.setText("Info");
-		}
+		LanguageService l = LanguageService.getInstance();
+		add.setText(l.getLabel("add"));
+		edit.setText(l.getLabel("edit"));
+		remove.setText(l.getLabel("remove"));
+		up.setText(l.getLabel("up"));
+		down.setText(l.getLabel("down"));
+		settings.setText(l.getLabel("settings"));
+		export.setText(l.getLabel("export"));
+		file.setText(l.getLabel("file"));
+		about.setText(l.getLabel("help"));
+		fexit.setText(l.getLabel("exit"));
+		fsettings.setText(l.getLabel("settings"));
+		ainfo.setText(l.getLabel("info"));
 		frame.pack();
 	};
 
@@ -150,9 +122,6 @@ public class Mainview {
 		about.add(ainfo);
 		frame.setJMenuBar(menubar);
 
-		//load labels onto components
-		setLabels();
-		
 		//listeners
 		fexit.addActionListener(ctrl.exitAction);
 		add.addActionListener(ctrl.addListener);
@@ -219,6 +188,13 @@ public class Mainview {
 				JOptionPane.showMessageDialog((JFrame)null, "Source code and description can be found\nat http://github.com/Dequisitor/JavaGUI", "Information", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
+
+		LanguageService.getInstance().addListener(new Observer() {
+			public void update() {
+				setLabels();
+			};
+		});
+		setLabels();
 	}
 
 	public void show() {
