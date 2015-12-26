@@ -1,3 +1,5 @@
+package app.uni.model;
+
 import javax.swing.table.DefaultTableModel;
 
 public class CommandList {

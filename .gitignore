@@ -1,3 +1,4 @@
 *.swp
 *.class
-
+Configurator/bin
+Configurator/settings.xml

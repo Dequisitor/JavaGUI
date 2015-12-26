@@ -1,4 +1,7 @@
-package app.uni.configurator;
+package app.uni;
+
+import app.uni.view.Mainview;
+
 import javax.swing.*;
 
 public class Configurator implements Runnable {
@@ -9,9 +12,7 @@ public class Configurator implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		System.setProperty("file.encoding", "UTF-8");
 		try {
-			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();

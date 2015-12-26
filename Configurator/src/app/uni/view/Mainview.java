@@ -1,9 +1,11 @@
-import java.awt.Container;
+package app.uni.view;
 
+import app.uni.controller.Controller;
+
+import java.awt.Container;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ResourceBundle;
-
 import javax.swing.event.*;
 
 public class Mainview {

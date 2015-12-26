@@ -1,3 +1,5 @@
+package app.uni.model;
+
 public class Command {
 
 	public static enum ResultTypes { Request, Execution, Response };

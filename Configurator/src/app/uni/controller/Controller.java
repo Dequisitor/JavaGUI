@@ -1,10 +1,16 @@
+package app.uni.controller;
+
+import app.uni.model.CommandList;
+import app.uni.model.Settings;
+import app.uni.model.Command;
+import app.uni.view.CommandDialog;
+import app.uni.view.SettingsDialog;
+
 import java.awt.event.*;
 import java.io.FileWriter;
 import java.util.ResourceBundle;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.event.*;
 
 public class Controller {
 	public CommandList listData;
@@ -35,7 +41,7 @@ public class Controller {
 	public ResourceBundle getResourceBundle() {
 		ResourceBundle result = null;
 		try {
-			result = ResourceBundle.getBundle("labels", settings.getLocale());
+			result = ResourceBundle.getBundle("app.uni.resources.labels", settings.getLocale());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

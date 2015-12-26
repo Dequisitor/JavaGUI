@@ -1,3 +1,5 @@
+package app.uni.model;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;

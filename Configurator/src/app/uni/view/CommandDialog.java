@@ -1,3 +1,8 @@
+package app.uni.view;
+
+import app.uni.model.Command;
+import app.uni.model.Settings;
+
 import javax.swing.*;
 import java.awt.Container;
 import java.awt.event.*;
@@ -23,7 +28,7 @@ public class CommandDialog extends JDialog {
 
 	public void setLabels() {
 		try {
-			ResourceBundle labels = ResourceBundle.getBundle("labels", settings.getLocale());
+			ResourceBundle labels = ResourceBundle.getBundle("app.uni.resources.labels", settings.getLocale());
 			String tmp;
 			tmp = labels.getString("name");
 			lName.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));

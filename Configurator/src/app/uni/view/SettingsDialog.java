@@ -1,3 +1,7 @@
+package app.uni.view;
+
+import app.uni.model.Settings;
+
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,7 +10,6 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
@@ -28,7 +31,7 @@ public class SettingsDialog extends JDialog {
 
 	public void setLabels() {
 		try {
-			ResourceBundle labels = ResourceBundle.getBundle("labels", settings.getLocale());
+			ResourceBundle labels = ResourceBundle.getBundle("app.uni.resources.labels", settings.getLocale());
 			String tmp;
 			tmp = labels.getString("output");
 			loutput.setText(new String(tmp.getBytes("ISO-8859-1"), "UTF-8"));
