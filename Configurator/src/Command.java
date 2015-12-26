@@ -18,12 +18,15 @@ public class Command {
 		this.result = result;
 	};
 
+	public Command() {
+	};
+
 	public String toString() {
 		return this.name + "\t" + this.alias + "\t" + this.command + " " + this.args + "\tprompt: " + this.prompt;
 	};
 
 	public Object[] toArray() {
-		Object array[] = {this.name, this.alias, this.command, this.args, this.prompt, this.result};
+		Object array[] = {this.name, this.alias, this.command, this.args, this.result, this.prompt};
 		return array;
 	};
 }

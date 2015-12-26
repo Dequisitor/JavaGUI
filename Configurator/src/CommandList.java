@@ -1,5 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class CommandList {
@@ -13,7 +11,7 @@ public class CommandList {
 			return false;
 		};
 	};
-	private TableModel commandList; 
+	private TableModel commandList;
 	
 	public CommandList() {
 		commandList = new TableModel(getColumns(), 0);
@@ -23,7 +21,25 @@ public class CommandList {
 		commandList.addRow(param.toArray());
 	};
 
-	public void changeCommand(Command param) {
+	public Command getCommand(int index) {
+		Command res = new Command();
+		res.name = (String)commandList.getValueAt(index, 0);
+		res.alias = (String)commandList.getValueAt(index, 1);
+		res.command = (String)commandList.getValueAt(index, 2);
+		res.args = (String)commandList.getValueAt(index, 3);
+		res.result = (int)commandList.getValueAt(index, 4);
+		res.prompt = (boolean)commandList.getValueAt(index, 5);
+
+		return res;
+	};
+
+	public void changeCommand(int index, Command param) {
+		commandList.setValueAt(param.name, index, 0);
+		commandList.setValueAt(param.alias, index, 1);
+		commandList.setValueAt(param.command, index, 2);
+		commandList.setValueAt(param.args, index, 3);
+		commandList.setValueAt(param.result, index, 4);
+		commandList.setValueAt(param.prompt, index, 5);
 	};
 
 	public void removeCommand(int index) {
@@ -31,7 +47,7 @@ public class CommandList {
 	};
 
 	public String[] getColumns() {
-		String columns[] = {"Name", "Alias", "Command", "Arguments", "Prompt", "Return Type"};
+		String columns[] = {"Name", "Alias", "Command", "Arguments", "Return Type", "Prompt"};
 		return columns;
 	};
 
