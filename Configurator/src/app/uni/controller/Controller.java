@@ -77,6 +77,35 @@ public class Controller {
 		}
 	}
 
+	public void exportXML() {
+		try {
+			String fullpath = settings.getPath() + "/" + settings.getFileName() + "." + settings.getAvailableFormats()[settings.getFormat()];
+			System.out.println(fullpath);
+			FileWriter file = new FileWriter(fullpath);
+			file.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<CommandList>\n");
+			for (int i=0; i<listData.getModel().getRowCount(); i++) {
+				Command current = listData.getCommand(i);
+				if (i>0) {
+					file.write("\t\n");
+				}
+				file.write("\t<Command>\n");
+				file.write("\t\t<name>"+ current.name + "</name>\n");
+				file.write("\t\t<alias>"+ current.alias + "</alias>\n");
+				file.write("\t\t<command>"+ current.command + "</command>\n");
+				file.write("\t\t<args>"+ current.args + "</args>\n");
+				file.write("\t\t<prompt>"+ current.prompt + "</prompt>\n");
+				file.write("\t</Command>\n");
+			}
+			file.write("</CommandList>");
+			file.close();
+
+			JOptionPane.showMessageDialog((JFrame)null, "Export successfully done on file: " + fullpath);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog((JFrame)null, "Export failed! (" + ex.getMessage() + ")", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	public void exportTXT() {
 		try {
 			String fullpath = settings.getPath() + "/" + settings.getFileName() + "." + settings.getAvailableFormats()[settings.getFormat()];
@@ -154,6 +183,9 @@ public class Controller {
 						public void run() {
 							if (settings.getFormat() == 0) {
 								exportJSON();
+							}
+							if (settings.getFormat() == 1) {
+								exportXML();
 							}
 							if (settings.getFormat() == 2) {
 								exportTXT();

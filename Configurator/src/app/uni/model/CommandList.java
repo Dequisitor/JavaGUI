@@ -1,18 +1,10 @@
 package app.uni.model;
 
+import app.uni.model.TableModel;
+
 import javax.swing.table.DefaultTableModel;
 
 public class CommandList {
-	private class TableModel extends DefaultTableModel {
-		public TableModel(String[] columns, int rows) {
-			super(columns, rows);
-		};
-
-		@Override
-		public boolean isCellEditable(int row, int col) {
-			return false;
-		};
-	};
 	private TableModel commandList;
 	
 	public CommandList() {

@@ -29,7 +29,7 @@ public class Settings {
 			path = "/path/to/file";
 			fileName = "commands";
 			format = 0;
-			lang = 3;
+			lang = 0;
 		}
 	}
 
